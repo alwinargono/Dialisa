@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+<script src="js/amazon-cognito-auth.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
+<script src="js/amazon-cognito-identity.min.js"></script>  
+<script src="js/config1.js"></script>
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+
+<script>
+
+    AWS.config.region = 'us-east-2'; // Region
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: '...'
+    });
+
+    AWS.config.update({accessKeyId: 'AKIA5PL6LOSLE7JOAQYM', secretAccessKey: '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'})
+
+    var poolData = { 
+        UserPoolId : 'us-east-2_wowJEwIKr',
+        ClientId : '7ad0b7brqh0vss75clj29e4t7t'
+    };
+
+
+    var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
+    var params = {
+        UserPoolId: 'us-east-2_wowJEwIKr', /* required */
+        //AttributesToGet: ["family_name","given_name"],
+        Filter: '',
+        Limit: '10'
+    };
+    let user;
+    cognitoidentityserviceprovider.listUsers(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else { 
+            let users = data.Users;
+            var counter = 0;
+            for (var i = 0; i < users.length; i++) 
+            {
+                var row = document.createElement("tr");
+                document.getElementById("userlists").appendChild(row);
+
+                var givenname = document.createElement("th");
+                var lastname = document.createElement("th");
+                var email = document.createElement("th");
+                var username = document.createElement("th");
+                var DOB = document.createElement("th");
+                var Notes = document.createElement("th");
+                var height = document.createElement("th");
+                var Emername = document.createElement("th");
+                var Emerphone = document.createElement("th");
+                var Emeremail = document.createElement("th");
+
+                var attributes = users[i].Attributes;
+                row.appendChild(email);
+                row.appendChild(username);
+                row.appendChild(givenname);
+                row.appendChild(lastname);
+                row.appendChild(DOB);
+                row.appendChild(Notes);
+                row.appendChild(height);
+                row.appendChild(Emername);
+                row.appendChild(Emerphone);
+                row.appendChild(Emeremail);
+
+                let getuser = users[counter].Username;
+                counter++;
+                let username1 = document.createTextNode(getuser);
+                username.appendChild(username1);
+
+                for (var j = 0; j < attributes.length; j++) 
+                {
+                    let attrName = attributes[j];
+                    let key = attrName.Name;
+                    let value = attrName.Value;
+                    if(key === "family_name")
+                    {
+                        let lastname1 = document.createTextNode(value);
+                        lastname.appendChild(lastname1);
+                    }
+                    else if(key == "given_name")
+                    {
+                        let firstname1 = document.createTextNode(value);
+                        givenname.appendChild(firstname1);
+                    }
+                    else if(key == "birthdate")
+                    {
+                        let DOB1 = document.createTextNode(value);
+                        DOB.appendChild(DOB1);
+                    }
+                    else if(key == "custom:emergency_name")
+                    {
+                        let Emername1 = document.createTextNode(value);
+                        Emername.appendChild(Emername1);
+                    }
+                    else if(key == "custom:Notes")
+                    {
+                        let Notes1 = document.createTextNode(value);
+                        Notes.appendChild(Notes1);
+                    }
+                    else if(key == "email")
+                    {
+                        let email1 = document.createTextNode(value);
+                        email.appendChild(email1);
+                    }
+                    else if(key == "custom:height")
+                    {
+                        let height1 = document.createTextNode(value);
+                        height.appendChild(height1);
+                    }
+                    else if(key == "custom:emergency_phone")
+                    {
+                        let Emerphone1 = document.createTextNode(value);
+                        Emerphone.appendChild(Emerphone1);
+                    }
+                    else if(key == "custom:emergency_email")
+                    {
+                        let Emeremail1 = document.createTextNode(value);
+                        Emeremail.appendChild(Emeremail1);
+                    }
+                }
+
+            }
+        }          // successful response
+    });
+
+
+
+</script>
+
+
+
+<body>
+
+<h2>List of Users</h2>
+
+<table id="userlists">
+  <tr>
+    <th>Email</th>
+    <th>User Name</th>
+    <th>Given Name</th>
+    <th>Last Name</th>
+    <th>Birth Date</th>
+    <th>Notes</th>
+    <th>Height</th>
+    <th>Emergency Name</th>
+    <th>Emergency Phone</th>
+    <th>Emergency Email</th>
+  </tr>
+</table>
+
+</body>
+</html>

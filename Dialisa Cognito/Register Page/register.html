@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+  margin-left:20%;
+  margin-right:20%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+.smallbox
+{
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-left:5px;
+	padding-right:15px;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for the submit button */
+.registerbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.length
+{
+	width: 100%;
+	height: 100%;
+
+}
+
+.registerbtn:hover {
+  opacity: 1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+<script src="js/amazon-cognito-auth.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
+<script src="js/amazon-cognito-identity.min.js"></script>  
+<script src="js/config.js"></script>
+
+
+</head>
+<body>
+  <div class="container">
+    <h1>Register</h1>
+    <p>Please fill in this form to create an account.</p>
+	<hr>
+<form id = "myForm">
+	<label for="email"><b>Email</b></label>
+	<input type="text" id = "email" placeholder="Enter Email" name="email" pattern="^(([-\w\d]+)(\.[-\w\d]+)*@([-\w\d]+)(\.[-\w\d]+)*(\.([a-zA-Z]{2,5}|[\d]{1,3})){1,2})$" required>
+	
+	<label for="username"><b>User Name</b></label>
+    <input type="text" id = "username" placeholder="User Name (Case sensitive)" name="username" pattern=".*" required>
+
+    <label for="givenname"><b>Given Name</b></label>
+    <input type="text" id = "givenname" placeholder="Given Name" name="givenname" pattern=".*" required>
+
+    <label for="lastname"><b>Last Name</b></label>
+    <input type="text" id = "lastname" placeholder="Last Name" name="lastname" pattern=".*" required>
+
+	<label for="dob"><b>Date Of Birth</b></label>
+	<p></p>
+	<input type="date" class = "length" id="dob" name="dob" name="trip-start" value="2018-07-22" min="1800-01-01" max="2025-12-31">
+	<p></p>
+	<!-- <input type="text" id = "dob" placeholder="Date Of Birth" name="dob" pattern=".*" required> -->
+	
+	<p><label for="height"><b>Height</b></label></p>
+	<select class = "smallbox" id = "heightofperson" required>
+			<option value="0'">0</option>
+			<option value="1'">1</option>
+			<option value="2'">2</option>
+			<option value="3'">3</option>
+			<option value="4'">4</option>
+			<option value="5'">5</option>
+			<option value="6'">6</option>
+			<option value="7'">7</option>
+			<option value="8'">8</option>
+			<option value="9'">9</option>
+			<option value="10'">10</option>
+	</select> ft
+	<select class = "smallbox" id = "heightofperson1" required>
+			<option value="0&quot;">0</option>
+			<option value="1&quot;">1</option>
+			<option value="2&quot;">2</option>
+			<option value="3&quot;">3</option>
+			<option value="4&quot;">4</option>
+			<option value="5&quot;">5</option>
+			<option value="6&quot;">6</option>
+			<option value="7&quot;">7</option>
+			<option value="8&quot;">8</option>
+			<option value="9&quot;">9</option>
+			<option value="10&quot;">10</option>
+			<option value="11&quot;">11</option>
+	</select> inches
+    
+    <p><label for="emerphone"><b>Emergency Phone</b></label>
+	<input type="text" id = "emergencyphone" placeholder="123-456-7890" name="emergencyphone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+
+    <label for="emername"><b>Emergency Name</b></label>
+    <input type="text" id = "emergencyname" placeholder="Emergency Name" name="emergencyname" pattern=".*" required>
+
+    <label for="emeremail"><b>Emergency Email</b></label>
+    <input type="text" id = "emergencyemail" placeholder="Emergency Email" name="emergencyemail" pattern="^(([-\w\d]+)(\.[-\w\d]+)*@([-\w\d]+)(\.[-\w\d]+)*(\.([a-zA-Z]{2,5}|[\d]{1,3})){1,2})$" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" id= "passwordregister" placeholder="Enter Password" name="psw" pattern=".*" required>
+
+    <label for="psw-repeat"><b>Repeat Password</b></label>
+	<input type="password" id = "passwordconfirm" placeholder="Repeat Password" name="psw-repeat" pattern=".*" required>
+	
+	<label for="notes"><b>Notes (Optional)</b></label>
+	<input type="text" id = "notes" placeholder="Note" name="notes" pattern=".*">
+    <hr>
+
+    <button class="registerbtn" type = "button" onclick="registerButton()">Register</button>
+  </div>
+  
+</form>
+
+<script>
+
+    var firstname;
+    var lastname;
+    var dob;
+    var email;
+    var username;
+    var notes;
+    var height;
+    var emerphone;
+    var emername;
+    var emeremail;
+    var poolData;
+	var password;
+	var height1;
+	var height2;
+	var emailregex = /^(([-\w\d]+)(\.[-\w\d]+)*@([-\w\d]+)(\.[-\w\d]+)*(\.([a-zA-Z]{2,5}|[\d]{1,3})){1,2})$/;
+	var phoneregex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}/;
+
+    function registerButton()
+    {
+        firstname = document.getElementById("givenname").value;
+        lastname = document.getElementById("lastname").value;
+        dob = document.getElementById("dob").value;
+        email = document.getElementById("email").value;
+        username = document.getElementById("username").value;
+        notes = document.getElementById("notes").value;
+		    height = document.getElementById("heightofperson").value;
+		    height1 = document.getElementById("heightofperson1").value;
+        emerphone = document.getElementById("emergencyphone").value;
+        emername = document.getElementById("emergencyname").value;
+		    emeremail = document.getElementById("emergencyemail").value;
+		
+		var emailresult = emailregex.test(emeremail);
+		if(emailresult == false)
+		{
+			alert("Invalid Email format!");
+			return;
+		}
+		var phoneresult = phoneregex.test(emerphone);
+		if(phoneresult == false)
+		{
+			alert("Invalid Phone format!");
+			return;
+		}
+
+        if (document.getElementById("passwordregister").value != document.getElementById("passwordconfirm").value) {
+			alert("Passwords Do Not Match!")
+			throw "Passwords Do Not Match!"
+		} else {
+			password =  document.getElementById("passwordregister").value;	
+		}
+		height2 = height.concat(height1);
+        
+        poolData = 
+        {
+            UserPoolId : _config.cognito.userPoolId, // Your user pool id here
+			      ClientId : _config.cognito.clientId // Your client id here
+        };	
+        
+        var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+        var attributeList = [];
+        
+        var dataEmail = {
+			Name : 'email', 
+			Value : email, //get from form field
+		};
+		
+		var dataGivename = {
+			Name : 'given_name', 
+			Value : firstname, //get from form field
+        };
+        
+        var dataLastname = {
+			Name : 'family_name', 
+			Value : lastname, //get from form field
+        };
+        
+        var datadob = {
+			Name : 'birthdate', 
+			Value : dob, //get from form field
+        };
+        
+        var datanotes = {
+			Name : 'custom:Notes', 
+			Value : notes, //get from form field
+        };
+
+        var datausername = {
+			Name : 'username', 
+			Value : username, //get from form field
+        };
+        
+        var dataheight = {
+			Name : 'custom:height', 
+			Value : height2, //get from form field
+        };
+        
+        var dataemerphone = {
+			Name : 'custom:emergency_phone', 
+			Value : emerphone, //get from form field
+        };
+        
+        var dataemername = {
+			Name : 'custom:emergency_name', 
+			Value : emername, //get from form field
+        };
+        
+        var dataemeremail = {
+			Name : 'custom:emergency_email', 
+			Value : emeremail, //get from form field
+		};
+
+		
+
+        var attrEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
+        var attrGivenname = new AmazonCognitoIdentity.CognitoUserAttribute(dataGivename);
+        var attrLastname = new AmazonCognitoIdentity.CognitoUserAttribute(dataLastname);
+        var attrdob = new AmazonCognitoIdentity.CognitoUserAttribute(datadob);
+        var attrusername = new AmazonCognitoIdentity.CognitoUserAttribute(datausername);
+        var attrnotes = new AmazonCognitoIdentity.CognitoUserAttribute(datanotes);
+        var attrheight = new AmazonCognitoIdentity.CognitoUserAttribute(dataheight);
+        var attremerphone = new AmazonCognitoIdentity.CognitoUserAttribute(dataemerphone);
+        var attremername = new AmazonCognitoIdentity.CognitoUserAttribute(dataemername);
+        var attremeremail = new AmazonCognitoIdentity.CognitoUserAttribute(dataemeremail);
+
+        attributeList.push(attrEmail);
+        attributeList.push(attrGivenname);
+        attributeList.push(attrLastname);
+        attributeList.push(attrdob);
+        attributeList.push(attrnotes);
+        attributeList.push(attrheight);
+        attributeList.push(attremerphone); 
+        attributeList.push(attremername); 
+        attributeList.push(attremeremail);
+
+        userPool.signUp(username,password,attributeList, null, function(err, result){
+            if (err) {
+				alert(err.message || JSON.stringify(err));
+				console.log("Failed to register!");
+				return;
+			}
+			else{
+				alert("Congrats! Account is Created");
+				//document.getElementById("myForm").reset();
+
+			}
+			cognitoUser = result.user;
+			console.log('user name is ' + cognitoUser.getUsername());
+			//change elements of page
+			//document.getElementById("titleheader").innerHTML = "Check your email for a verification link";
+			document.getElementById("myForm").reset();
+			
+		});
+	  } 
+
+</script>
+
+</body>
+</html>
